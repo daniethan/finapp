@@ -6,8 +6,8 @@ from enum import StrEnum
 
 # Enum for ExpenseCategory
 class ExpenseCategory(StrEnum):
-    GROCERIES = "Groceries"
-    UTILITIES = "Utilities"
+    FOODSTUFF = "Foodstuff"
+    UTILITY = "Utility"
     ENTERTAINMENT = "Entertainment"
     TRANSPORT = "Transport"
     OTHER = "Other"
@@ -17,8 +17,8 @@ class ExpenseCategory(StrEnum):
 class IncomeSource(StrEnum):
     SALARY = "Salary"
     FREELANCE = "Freelance"
-    INVESTMENT = "Investments"
-    GIFT = "Gifts"
+    INVESTMENT = "Investment"
+    GIFT = "Gift"
     OTHER = "Other"
 
 
@@ -51,7 +51,7 @@ class UserRead(UserBase):
 class ExpenseBase(BaseModel):
     amount: float
     description: str
-    category: Optional[ExpenseCategory] = ExpenseCategory.GROCERIES
+    category: Optional[ExpenseCategory] = ExpenseCategory.OTHER
 
 
 class ExpenseRead(ExpenseBase):
@@ -62,14 +62,14 @@ class ExpenseRead(ExpenseBase):
 class ExpenseUpdate(BaseModel):
     amount: Optional[float] = 0.0
     description: Optional[str | None] = None
-    category: Optional[ExpenseCategory] = ExpenseCategory.GROCERIES
+    category: Optional[ExpenseCategory] = ExpenseCategory.OTHER
 
 
 # Pydantic model for Income
 class IncomeBase(BaseModel):
     amount: float
     description: str
-    source: Optional[IncomeSource] = IncomeSource.SALARY
+    source: Optional[IncomeSource] = IncomeSource.OTHER
 
 
 class IncomeRead(IncomeBase):
@@ -80,4 +80,4 @@ class IncomeRead(IncomeBase):
 class IncomeUpdate(BaseModel):
     amount: Optional[float] = 0.0
     description: Optional[str | None] = None
-    source: Optional[IncomeSource] = IncomeSource.SALARY
+    source: Optional[IncomeSource] = IncomeSource.OTHER

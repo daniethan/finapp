@@ -65,12 +65,6 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
-#FastAPI stuff:
-requirements.txt
-finapp.db
-*.db
-*.txt
-
 # Scrapy stuff:
 .scrapy
 
