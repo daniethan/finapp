@@ -1,7 +1,7 @@
 from src import schemas, models
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
-from sqlalchemy import or_ as _or
+from sqlalchemy import types, or_ as _or
 from fastapi import status, HTTPException
 
 
@@ -24,8 +24,8 @@ def get_expenses(
     if query:
         return db.query(models.Expense).filter(
             _or(
-                models.Expense.description.contains(query),
-                models.Expense.category.contains(query),
+                models.Expense.description.icontains(query),
+                models.Expense.category.cast(types.String).icontains(query),
             ),
             models.Expense.user_id == user.id,
         )
@@ -80,8 +80,8 @@ def get_income_records(
     if query:
         return db.query(models.Income).filter(
             _or(
-                models.Income.description.contains(query),
-                models.Income.source.contains(query),
+                models.Income.description.icontains(query),
+                models.Income.source.cast(types.String).icontains(query),
             ),
             models.Income.user_id == user.id,
         )
