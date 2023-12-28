@@ -1,3 +1,4 @@
+from contextlib import _AsyncGeneratorContextManager, asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from src.dbconfig import Base, engine
@@ -5,18 +6,20 @@ import uvicorn
 from src.routers import expense_routers, income_routers, user_router
 
 
-app = FastAPI()
-
-
-@app.on_event("startup")
-def on_startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> _AsyncGeneratorContextManager[None]:
     # Create the tables in the database
+    # on app start up.
     Base.metadata.create_all(engine)
-    return None
+    yield
+    # clean up code after shutdown goes here
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/", tags=["Root"])
-async def root():
+async def root() -> RedirectResponse:
     return RedirectResponse(url="/docs")
 
 
